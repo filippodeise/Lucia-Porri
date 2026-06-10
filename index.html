@@ -249,6 +249,91 @@ footer { background: #0D0508; padding: 56px 8% 32px; border-top: 1px solid rgba(
   footer { padding: 40px 5% 24px; }
   .hero-stats { gap: 20px; }
 }
+  
+/* ============ LEGAL MODALS ============ */
+.legal-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.legal-modal.active { display: flex; }
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10,3,7,0.85);
+  backdrop-filter: blur(4px);
+}
+.modal-box {
+  position: relative;
+  z-index: 1;
+  background: var(--cream);
+  border-radius: 10px;
+  width: 100%;
+  max-width: 680px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  border-top: 3px solid var(--crimson);
+}
+.modal-header {
+  padding: 24px 32px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  background: #fff;
+}
+.modal-header h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--dark);
+}
+.modal-close {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: var(--text-light);
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.modal-close:hover { background: var(--crimson); color: #fff; border-color: var(--crimson); }
+.modal-body {
+  padding: 28px 32px;
+  overflow-y: auto;
+  font-size: 0.88rem;
+  color: var(--text);
+  line-height: 1.75;
+}
+.modal-body h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--crimson);
+  margin: 20px 0 8px;
+  font-family: 'DM Sans', sans-serif;
+}
+.modal-body h3:first-child { margin-top: 0; }
+.modal-body p { margin-bottom: 10px; }
+.modal-body ul { padding-left: 18px; margin-bottom: 10px; }
+.modal-body ul li { margin-bottom: 4px; }
+.modal-body a { color: var(--crimson); }
+@media (max-width: 600px) {
+  .modal-box { max-height: 92vh; border-radius: 8px; }
+  .modal-header { padding: 18px 20px; }
+  .modal-body { padding: 20px; }
+}  
 </style>
 </head>
 <body>
@@ -640,6 +725,22 @@ function declineCookies() {
 if (localStorage.getItem('cookieConsent')) {
   document.getElementById('cookie-banner').style.display = 'none';
 }
+function openModal(id) {
+  document.getElementById(id).classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.legal-modal.active').forEach(function(m) {
+      m.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+  }
+});
 
 let lastScroll = 0;
 const navbar = document.getElementById('navbar');
@@ -680,5 +781,90 @@ function toggleFaq(btn) {
 }
 document.querySelector('.faq-question').click();
 </script>
+<!-- MODAL PRIVACY POLICY -->
+<div id="modal-privacy" class="legal-modal" role="dialog" aria-modal="true" aria-labelledby="privacy-title">
+  <div class="modal-backdrop" onclick="closeModal('modal-privacy')"></div>
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2 id="privacy-title">Privacy Policy</h2>
+      <button class="modal-close" onclick="closeModal('modal-privacy')" aria-label="Chiudi">✕</button>
+    </div>
+    <div class="modal-body">
+      <h3>Titolare del trattamento</h3>
+      <p>APS Amici per la Musica – Trinity Musical School<br>
+      Piazza Mazzini 14, Ro – Riva del Po (FE)<br>
+      C.F.: 93101090384<br>
+      Email: <a href="mailto:info@amiciperlamusica.org">info@amiciperlamusica.org</a><br>
+      Tel.: 0532 18 58 23</p>
+
+      <h3>Dati raccolti</h3>
+      <p>Il presente sito non raccoglie dati personali tramite form. Le uniche interazioni che comportano trattamento di dati avvengono tramite:</p>
+      <ul>
+        <li>Contatto diretto via WhatsApp (gestito dalla piattaforma Meta)</li>
+        <li>Contatto telefonico diretto</li>
+        <li>Cookie tecnici di navigazione (vedi Cookie Policy)</li>
+      </ul>
+
+      <h3>Finalità del trattamento</h3>
+      <p>I dati eventualmente forniti dall'utente tramite i canali di contatto sopra indicati saranno trattati esclusivamente per:</p>
+      <ul>
+        <li>Rispondere alle richieste di informazioni sui corsi</li>
+        <li>Gestire l'iscrizione ai corsi e le comunicazioni amministrative</li>
+        <li>Adempiere agli obblighi di legge previsti per le APS</li>
+      </ul>
+
+      <h3>Base giuridica</h3>
+      <p>Il trattamento è fondato sul consenso dell'interessato (art. 6, par. 1, lett. a GDPR) e/o sull'esecuzione di un contratto o misure precontrattuali (art. 6, par. 1, lett. b GDPR).</p>
+
+      <h3>Conservazione dei dati</h3>
+      <p>I dati personali saranno conservati per il tempo strettamente necessario al perseguimento delle finalità per cui sono stati raccolti e comunque non oltre i termini previsti dalla normativa applicabile.</p>
+
+      <h3>Diritti dell'interessato</h3>
+      <p>L'interessato ha diritto di accedere ai propri dati personali, richiederne la rettifica o la cancellazione, opporsi al trattamento, richiedere la limitazione del trattamento e la portabilità dei dati, ai sensi degli artt. 15-22 del GDPR. Per esercitare tali diritti è possibile contattare il Titolare all'indirizzo sopra indicato.</p>
+
+      <h3>Reclamo all'Autorità di controllo</h3>
+      <p>L'interessato ha il diritto di proporre reclamo al Garante per la Protezione dei Dati Personali (<a href="https://www.garanteprivacy.it" target="_blank">www.garanteprivacy.it</a>).</p>
+
+      <h3>Aggiornamenti</h3>
+      <p>La presente Privacy Policy può essere aggiornata periodicamente. La versione pubblicata su questa pagina è quella vigente.</p>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL COOKIE POLICY -->
+<div id="modal-cookie" class="legal-modal" role="dialog" aria-modal="true" aria-labelledby="cookie-title">
+  <div class="modal-backdrop" onclick="closeModal('modal-cookie')"></div>
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2 id="cookie-title">Cookie Policy</h2>
+      <button class="modal-close" onclick="closeModal('modal-cookie')" aria-label="Chiudi">✕</button>
+    </div>
+    <div class="modal-body">
+      <h3>Cosa sono i cookie</h3>
+      <p>I cookie sono piccoli file di testo che i siti web visitati dall'utente inviano al suo terminale (browser), dove vengono memorizzati per essere poi ritrasmessi agli stessi siti alla visita successiva.</p>
+
+      <h3>Cookie utilizzati da questo sito</h3>
+      <p>Questo sito utilizza esclusivamente cookie tecnici di prima parte, necessari al funzionamento della pagina:</p>
+      <ul>
+        <li><strong>cookieConsent</strong> — memorizza la preferenza dell'utente relativa al consenso ai cookie (localStorage). Durata: persistente fino alla cancellazione manuale.</li>
+      </ul>
+      <p>Non vengono utilizzati cookie di profilazione, né cookie di terze parti a scopi pubblicitari o analitici senza il consenso dell'utente.</p>
+
+      <h3>Cookie di Google Fonts</h3>
+      <p>Questo sito carica i font tipografici tramite Google Fonts (Google LLC). Tale servizio potrebbe impostare cookie tecnici necessari all'erogazione del servizio. Per informazioni sulla privacy di Google: <a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a>.</p>
+
+      <h3>Gestione dei cookie</h3>
+      <p>L'utente può gestire le preferenze relative ai cookie direttamente all'interno del proprio browser e impedire, ad esempio, che terze parti possano installarne. Tramite le preferenze del browser è inoltre possibile eliminare i cookie installati in passato. I principali browser dispongono di istruzioni specifiche nelle rispettive pagine di supporto.</p>
+
+      <h3>Revoca del consenso</h3>
+      <p>Per revocare il consenso precedentemente espresso è possibile cancellare i dati del sito dalla memoria del browser, oppure contattare il Titolare del trattamento all'indirizzo indicato nella Privacy Policy.</p>
+
+      <h3>Titolare del trattamento</h3>
+      <p>APS Amici per la Musica – Trinity Musical School — C.F. 93101090384<br>
+      Email: <a href="mailto:info@amiciperlamusica.org">info@amiciperlamusica.org</a></p>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
